@@ -14,7 +14,7 @@ if a[0] > a[-1]:
         d = 34 * a[0]
         print(d)
 
-print(a)
+print(a) # comentario de prueba
 
 # Acción alternativa usando "else"
 if a[0] > a[-1]:
