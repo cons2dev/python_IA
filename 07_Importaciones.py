@@ -26,6 +26,7 @@ import os
 import sys
 
 # Método 1: Cambiar directorio de trabajo temporalmente
+# Sólo con el REPL
 print("1. Cambiando directorio de trabajo:")
 directorio_original = os.getcwd()
 try:
@@ -42,6 +43,7 @@ print(f"   Perímetro de círculo radio 25: {cir_temp.perimetro(25):.2f}")
 
 # Método 2: Añadir ruta al sys.path (RECOMENDADO)
 ruta_funciones = os.path.join(os.getcwd(), "funciones")
+#ruta_funciones = os.getcwd() + "/" + "funciones"
 if ruta_funciones not in sys.path:
     sys.path.append(ruta_funciones)
     print(f"   ✓ Ruta añadida: {ruta_funciones}")
@@ -52,3 +54,6 @@ import circulo as cir
 print(f"   Área de círculo radio 3: {cir.area(3):.2f}")
 print(f"   Perímetro de círculo radio 25: {cir.perimetro(25):.2f}")
 
+
+
+sys.path.append("C:/Documentos/mis_cosillas")

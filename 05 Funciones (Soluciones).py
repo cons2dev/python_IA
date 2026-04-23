@@ -258,3 +258,5 @@ y el jugador tiene que adivinarlo.
 Proporciona pistas sobre si el número es mayor o menor. 
 Utiliza funciones para organizar el código.
 """
+
+
