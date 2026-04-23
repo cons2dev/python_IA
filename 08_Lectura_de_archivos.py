@@ -16,6 +16,7 @@ archivo = open("datos/quijote.txt", "r", encoding="utf-8")
 print(f"   ✓ Archivo abierto correctamente")
 
 type(archivo)
+print(archivo)
 
 contenido = archivo.read()
 archivo.seek(0)
@@ -27,8 +28,11 @@ print(f"   Modo de apertura: {archivo.mode}")
 print(f"   ¿Está cerrado?: {archivo.closed}")
 # Cerrar un archivo
 archivo.close()
+contenido_lineas = archivo.readlines()
 archivo.seek(0)
-archivo.read()
+contenido_lineas = archivo.readlines(3)
+
+archivo.read(500)
 
 print(f"   ✓ Archivo cerrado correctamente")
 print(f"   ¿Está cerrado?: {archivo.closed}")
@@ -74,7 +78,7 @@ if 'contenido' in locals():
     print(f"   'Quijote' aparece {contenido.count('Quijote')} veces")
     print(f"   'Dulcinea' aparece {contenido.count('Dulcinea')} veces\n")
 
-# Limpieza del texto (eliminar saltos de línea múltiples)
+# Limpieza del texto (eliminar saltos de línea dentro de las frases)
 if 'contenido' in locals():
     texto_limpio = contenido.replace("\n\n", "##SALTO_DOBLE##")
     texto_limpio = texto_limpio.replace("\n", " ")
@@ -221,3 +225,44 @@ Crear un archivo llamado dulcinea.txt que contenga las líneas de quijote.txt qu
 
 # Solución
 
+try:
+    with open("datos/quijote.txt", "r", encoding="utf-8") as archivo:
+        lineas = archivo.readlines()
+        print(len(lineas))
+except Exception as e:
+    print(e)
+
+lineas_dulcinea = []
+if "lineas" in locals():
+    len(lineas)
+    for linea in lineas:
+        if "dulcinea" in linea.lower():
+            lineas_dulcinea.append(linea)
+
+len(lineas_dulcinea)
+
+lineas_dulcinea[56:59]
+
+
+try:
+    with open("datos/dulcinea.txt", "w", encoding="utf-8") as archivo:
+        archivo.writelines(lineas_dulcinea)
+except Exception as e:
+    print(e)
+
+
+
+try:
+    with open("datos/quijote.txt", "r", encoding="utf-8") as archivo:
+        lineas = "se borra"
+        while lineas:
+            lineas = archivo.readlines(20)
+            for linea in lineas:
+                if "dulcinea" in linea.lower():
+                    try:
+                        with open("datos/dulcinea.txt", "a", encoding="utf-8") as salida:
+                            salida.writelines(linea)
+                    except Exception as e:
+                        print(e)
+except Exception as e:
+    print(e)
