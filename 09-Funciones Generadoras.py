@@ -110,7 +110,7 @@ def primos(n, m):
         if es_primo(numero):
             yield numero
 
-generador_de_primos = primos(0,100)
+generador_de_primos = primos(0,1000)
 
 [numero for numero in generador_de_primos if str(numero)[-1] == "7"]
 
@@ -119,13 +119,19 @@ generador_de_primos = primos(0,100)
 # Ejercicio #
 #-----------#
 # Crear un generador que busca en un archivo líneas que contengan una subcadena coincidente:
-# Usar ese generador para leer El Quijote, cuando el generador encuentre la palabra Quijote,
+# Usar ese generador para leer El Quijote, cuando el generador encuentre la palabra buscada,
 # imprime la línea y para hasta que el usuario le da a "intro" (con un input vacío)
 
 # Primero creamos el código que lee las líneas del Quijote
+"""
 archivo = open("datos/quijote.txt", 'r', encoding="utf-8")
 lineas_quijote = archivo.readlines()
 archivo.close()
+"""
+# Pero es mejor así
+with open("datos/quijote.txt", 'r', encoding="utf-8") as archivo:
+    lineas_quijote = archivo.readlines()
+
 len(lineas_quijote)
 
 # Dado que es un libro muy largo, 37825 líneas son demasiadas para hacer pruebas
@@ -136,3 +142,24 @@ primeras_lineas = lineas_quijote[:200]
 # Solución #
 #----------#
 
+def busca_palabras(path_archivo, palabra):
+    with open(path_archivo, 'r', encoding="utf-8") as archivo:
+        linea = "inicio"
+        while linea:
+            linea = archivo.readline()
+            if palabra.lower() in linea.lower():
+                yield linea
+
+for sancho in busca_palabras("datos/quijote.txt", "Sancho"):
+    print(sancho)
+
+def buscador():
+    path_archivo = input("En qué archivo quieres buscar: ")
+    palabra = input("Qué palabra quieres buscar: ")
+    genera_lineas = busca_palabras(path_archivo, palabra)
+    opcion_parada = ""
+    while opcion_parada!="q":
+        print(next(genera_lineas))
+        opcion_parada = input("¿Continuar? (q para terminar): ")
+
+buscador()

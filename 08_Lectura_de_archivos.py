@@ -253,10 +253,10 @@ except Exception as e:
 
 
 try:
-    with open("datos/quijote.txt", "r", encoding="utf-8") as archivo:
+    with open("datos/quijote.txt", "r", encoding="utf-8") as entrada:
         lineas = "se borra"
         while lineas:
-            lineas = archivo.readlines(20)
+            lineas = entrada.readlines(20)
             for linea in lineas:
                 if "dulcinea" in linea.lower():
                     try:
