@@ -94,11 +94,11 @@ def comprueba_entradas(func):
 def division(x, y):
     return x/y
 
-division(1,0)
+division(1,0.00001)
 
 
 def comprueba_entradas(func):
-    def comprobacion(x, y, mensaje):
+    def comprobacion(x, y, mensaje="Hola"):
         if y == 0:
             return "La entrada de datos no es correcta"
         else:
@@ -113,7 +113,7 @@ def division_y_print(x, y, mensaje):
     return x/y
 
 
-division_y_print(2, 0)
+division_y_print(2, 3)
 division_y_print(2, 0, "Hola")
 
 # La clave de definir bien un decorador es que reciba una función y devuelva
@@ -186,13 +186,22 @@ def medir_tiempo(func):
         return salida
     return funcion_medida
 
+@medir_tiempo
+def ejemplo(m1):
+    time.sleep(1)
+    return m1
+
+ejemplo("Hola que tal estás")
+
 
 def medir_tiempo(func):
-    def funcion_medida(**mensaje):
+    def funcion_medida(*mensajes_posicion, **mensajes_clave):
         inicio = time.time()
-        for elemento in mensaje:
+        for elemento in mensajes_posicion:
             print(elemento)
-        salida = func(**mensaje)
+        for elemento in mensajes_clave:
+            print(elemento)
+        salida = func(*mensajes_posicion, **mensajes_clave)
         final = time.time()
         print(f"Tiempo de ejecución de la función {func.__name__}, {final - inicio} segundos")
         return salida
@@ -210,19 +219,39 @@ def ejemplo3(mensaje):
     time.sleep(3)
     return mensaje
 
-ejemplo3("Hola que tal")
+ejemplo3(mensaje = "Hola que tal")
 ejemplo3("Hola como estás")
 
 
-#Ejercicio: Decorador de Validación de Parámetros
+#Ejercicio1: Decorador de Validación de Parámetros
 """
 Crea un decorador llamado validar_parametros que tome una función y verifique si los parámetros 
 cumplen ciertas condiciones antes de llamar a la función. 
 
 Por ejemplo, puedes implementar una validación que asegure que los números ingresados son positivos.
 """
+def valida_num_entrada(func):
+    def wrapper(*args, **kwargs):
+        for arg in args:
+            if not isinstance(arg, (int, float)):
+                raise TypeError(f"El argumento por posición {arg} no es un número")
+        for clave, valor in kwargs.items():
+            if not isinstance(valor, (int, float)):
+                raise TypeError(f"El argumento por clave {clave} = {valor} no es un número")
+        return func(*args, **kwargs)
+    return wrapper
 
+@valida_num_entrada
+def evaluar_cuadratica(a, b, c, x):
+    '''
+    a, b, c: valores numéricos de los coeficientes de una ecuación
+    de segundo grado
+    x: valor de la variable x.
+    '''
+    solucion = a*x*x+b*x+c
+    return solucion
 
+evaluar_cuadratica(3, 2, c="5", x=4)
 
 
 #Ejercicio 2: Decorador para Logs
@@ -232,5 +261,27 @@ como el nombre de la función, los argumentos y el resultado. Imprime esta infor
 cada vez que la función decorada se ejecuta.
 """
 
+def registro(func):
+    def wrapper(*args, **kwargs):
+        salida = func(*args, **kwargs)
+        print(f"La función {func.__name__} devuelve {salida} para las entradas:")
+        for arg in args:
+            print(f"    {arg}")
+        for clave, valor in kwargs.items():
+            print(f"   {clave} = {valor}")
+        return salida
+    return wrapper
 
-# Construir un decorador que compruebe que la salida de una función sea un número
+@valida_num_entrada
+@registro
+def evaluar_cuadratica(a, b, c, x):
+    '''
+    a, b, c: valores numéricos de los coeficientes de una ecuación
+    de segundo grado
+    x: valor de la variable x.
+    '''
+    solucion = a*x*x+b*x+c
+    return solucion
+
+
+evaluar_cuadratica(3, 2, c=5, x=4)

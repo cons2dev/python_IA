@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  9 21:51:51 2023
-
-@author: laptop
-"""
-
 #######################
 # List comprehension  #
 #######################
@@ -88,6 +80,7 @@ next(generador2)
 next(generador2)
 next(generador2)
 
+
 # Puedo ejecutar la función en todos los elementos si creo una lista para los resultados
 lista_desde_generador = list(generador2)
 
@@ -162,6 +155,8 @@ Se pueden usar en cualquier lugar en el que una función sea requerida.
 def doble(num):
     return num*2
 
+lambda num: num*2
+
 # Lambda por reducción de una función sencilla
 iterable2 = map(lambda num: num * 2, lista_num)
 
@@ -185,6 +180,7 @@ lista_num3 = list(iterable3)
 #-----------#
 # Crear una lista con los números de 0 al 100.
 # Desordenarla aleatoriamente
+import random
 
 numeros = list(range(0, 101))
 random.shuffle(numeros)
@@ -192,14 +188,13 @@ print(numeros)
 
 # Dividirlos entre tres con map y una función lambda.
 
-
+tercios = list(map(lambda num: num/3, numeros))
 
 # Filtrar del resultado anterior los que tienen parte decimal con una función lambda.
 
+con_decimales = list(filter(lambda num: num != int(num), tercios))
 
-
-    
-
+redondeados = list(map(lambda num: round(num, 4), con_decimales))
 
 #__________#
 # Solución #
@@ -211,15 +206,31 @@ print(numeros)
 #-----------#
 # Creamos una lista de edades que por error contiene números negativos y excesivos
 import random
-edades = [random.randint(-7, 130) for i in range(500)]
+edades = [random.randint(-7, 130) for _ in range(500)]
 edades.count(-3)
 edades.count(121)
 
 
 # Usar filter para eliminar los valores negativos y mayores de 120
 
+lambda num: num >= 0 and num<=120
 
-
+edades_correctas = list(filter(lambda num: num >= 0 and num<=120, edades))
+edades_correctas.count(-3)
+edades_correctas.count(121)
+len(edades_correctas)
 
 # Usar map para sustituirlos por 120 o 0
+def corrector(num):
+    if num>120:
+        return 120
+    elif num<0:
+        return 0
+    else:
+        return num
 
+edades_correctas2 = list(map(corrector,edades))
+
+edades_correctas2.count(-3)
+edades_correctas2.count(121)
+len(edades_correctas2)
