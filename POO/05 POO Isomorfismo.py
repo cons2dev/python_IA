@@ -1,20 +1,18 @@
 from datetime import datetime
 from vehiculos import Coche
-from abc import ABC, abstractmethod
 
-
-class Empleado(ABC):
+class Empleado:
     def __init__(self, nombre, apellido1, apellido2=""):
         # Características
         self.nombre = nombre
         self.apellido1 = apellido1
         self.apellido2 = apellido2
         # Estados
-        self.__trabajando = False
+        self.trabajando = False
         self.ubicacion = "Rentería"
         self.fichajes_entrada = []
         self.fichajes_salida = []
-        self.__sueldo_hora = 20
+        self.sueldo_hora = 20
         self.dietas = 0
 
     # Los métodos son funciones con "self"
@@ -25,8 +23,8 @@ class Empleado(ABC):
     def ficha(self):
         print("Biip, Biiiiip")
         self.dietas += 1
-        self.__trabajando = not self.__trabajando
-        if self.__trabajando:
+        self.trabajando = not self.trabajando
+        if self.trabajando:
             self.fichajes_entrada.append(datetime.now())
         else:
             self.fichajes_salida.append(datetime.now())
@@ -43,13 +41,12 @@ class Empleado(ABC):
         return tiempo_total
     
     def asigna_sueldo(self):
-        self.__sueldo_hora += float(input("En cuánto quieres incrementar el sueldo: "))
-        print(f"Se ha asignado a {self.nombre} {self.apellido1} {self.__sueldo_hora}€/h")
+        self.sueldo_hora += float(input("En cuánto quieres incrementar el sueldo: "))
+        print(f"Se ha asignado a {self.nombre} {self.apellido1} {self.sueldo_hora}€/h")
 
-    @abstractmethod
     def calcula_sueldo(self):
         horas_trabajadas = self.calcula_tiempo_trabajado() / 3600
-        sueldo_horas = horas_trabajadas * self.__sueldo_hora
+        sueldo_horas = horas_trabajadas * self.sueldo_hora
         sueldo_total = sueldo_horas + self.dietas
         return sueldo_total
     
@@ -60,9 +57,6 @@ class Directivo(Empleado):
 
     def asigna_coche(self, marca, modelo, longitud, precio):
         self.coche = Coche(marca, modelo, longitud, precio)
-
-    def calcula_sueldo(self):
-        return super().calcula_sueldo()
     
 class Oficinista(Empleado):
     def __init__(self, nombre, apellido1, apellido2=""):
@@ -84,7 +78,7 @@ class Peon(Empleado):
 
     def ficha(self):
         super().ficha()
-        if self._Empleado__trabajando and datetime.now().hour > 20:
+        if self.trabajando and datetime.now().hour > 20:
             self.guardias +=1
 
     def calcula_sueldo(self):
@@ -93,9 +87,9 @@ class Peon(Empleado):
 
 if __name__ == "__main__":
     import time
-    #director = Directivo('Juan', 'Pérez', 'López')
-    #secretario = Oficinista('Juanito', 'Pérez', 'García')
-    #soldador = Peon("Luis", "Gómez")
+    director = Directivo('Juan', 'Pérez', 'López')
+    secretario = Oficinista('Juanito', 'Pérez', 'García')
+    soldador = Peon("Luis", "Gómez")
     ### Pruebas Directivo
     """
     director.ficha()
@@ -131,7 +125,6 @@ if __name__ == "__main__":
 
     print("Sueldo:", secretario.calcula_sueldo())
     """
-    """
     ### Pruebas Peón soldador
     soldador.ficha()
     time.sleep(2)
@@ -145,21 +138,3 @@ if __name__ == "__main__":
     print("Sueldo:", soldador.calcula_sueldo())
 
     print(soldador.guardias)
-    soldador.__sueldo_hora = 50
-    print(soldador.__sueldo_hora)
-
-    print("Sueldo:", soldador.calcula_sueldo())
-    """
-    # Pruebas Empleado
-    soldador = Directivo("Luis", "Gómez")
-
-    soldador.ficha()
-    time.sleep(2)
-    soldador.ficha()
-    print("Tiempo trabajado:", soldador.calcula_tiempo_trabajado())
-    print("Dietas:", soldador.dietas)
-
-    print("Sueldo:", soldador.calcula_sueldo())
-    soldador.asigna_sueldo()
-
-    print("Sueldo:", soldador.calcula_sueldo())

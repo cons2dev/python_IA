@@ -46,7 +46,7 @@ vigilante.__edad = 25
 dir(vigilante)
 vigilante.saludar()
 
-vigilante.set_edad(151)
+vigilante.set_edad(25)
 vigilante.get_edad()
 
 vigilante.__edad
@@ -66,7 +66,6 @@ class Persona:
         else:
             return "No te doy la información"
 
-
     @edad.setter
     def edad(self, edad):    
         if edad < 0 or edad > 120:
@@ -84,6 +83,7 @@ vigilante.edad
 vigilante.edad = 130
 vigilante.edad = -3
 vigilante.edad = 51
+
 vigilante.edad
 
 vigilante.saludar()
@@ -130,7 +130,7 @@ print(f"¿Está trabajando {secretario.nombre}? {secretario.trabajando}")
 secretario.ficha()
 
 print(f"¿Está trabajando {director.nombre}? {director.trabajando}")
-# print(f"¿Dónde está el director? {director.__ubicacion}") # Ya no funciona
+print(f"¿Dónde está el director? {director.__ubicacion}") # Ya no funciona
 print(f"¿Dónde está el director? {director.esta_en()}")
 print(f"¿Está trabajando {secretario.nombre}? {secretario.trabajando}")
 # print(f"¿Dónde está el secretario? {secretario.__ubicacion}") # Ya no funciona

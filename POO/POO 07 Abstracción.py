@@ -9,6 +9,7 @@ from abc import ABC, abstractmethod
 # abstractmethod es un decorador que impide utilizar un método
 
 class Animales(ABC):
+    @abstractmethod
     def __init__(self, nombre):
         self.nombre = nombre
 
@@ -27,26 +28,24 @@ class Animales(ABC):
 class Perro(Animales):
     def __init__(self, nombre):
         super().__init__(nombre)
-    
-    def hacer_sonido(self):
-        super().hacer_sonido()
-        print("El perro hace 'guau guau'")
-    
+      
     def moverse(self):
         print("El perro corre")
 
+    def hacer_sonido(self):
+        super().hacer_sonido()
+        print("El perro hace 'guau guau'")
 
 lassie = Animales("Lassie")
-lassie.hacer_sonido()
-
-
 
 lassie = Perro('Lassie')
+
 pluto = Perro("Pluto")
 
 lassie.comer("Whiskas")
 pluto.comer("Salchichas")
 
+lassie.hacer_sonido()
 pluto.hacer_sonido()
 
 
@@ -57,3 +56,5 @@ pluto.hacer_sonido()
 # Abstraemos la clase Empleado del ejercicio.
 
 # Sólo se podrán instanciar, directivos, oficinistas y peones
+
+

@@ -1,11 +1,19 @@
-from POO.personal import Persona
+from personal import Directivo, Oficinista
 
-director = Persona('Juan', 'Pérez', 'López')
-secretario = Persona('Juanito', 'Pérez', 'García')
+director = Directivo('Juan', 'Pérez', 'López')
+secretario = Oficinista('Juanito', 'Pérez', 'García')
 
 secretario.ficha()
+secretario.ficha()
 print(secretario.calcula_tiempo_trabajado())
+
+director.ficha()
+director.ficha()
+print(director.calcula_tiempo_trabajado())
+
 secretario.dietas
 
-print(secretario.calcula_sueldo())
-secretario.asigna_sueldo()
+lista =[director, secretario]
+
+for empleado in lista:
+    print(secretario.calcula_sueldo())
