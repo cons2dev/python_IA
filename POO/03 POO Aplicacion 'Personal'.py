@@ -64,6 +64,7 @@ print(f"¿Dónde está el secretario? {secretario.ubicacion}")
 director.viaja("Albacete")
 director.ubicacion
 
+secretario.ficha()
 print(f"¿Está trabajando {director.nombre}? {director.trabajando}")
 print(f"¿Dónde está el director? {director.ubicacion}")
 print(f"¿Está trabajando {secretario.nombre}? {secretario.trabajando}")
@@ -105,7 +106,7 @@ secretario = Persona('Juanito', 'Pérez', 'García')
 director.fichajes
 secretario.ficha()
 secretario.trabajando
-
+secretario.fichajes
 
 #----------------------------------------------------------
 # Etapa2: Vamos a llevar una contabilidad del tiempo trabajado
@@ -114,8 +115,10 @@ from datetime import timedelta, datetime
 entrada = datetime.now()
 salida = datetime.now()
 intervalo = salida - entrada
+intervalo_dia = intervalo + 1
 intervalo_dia = intervalo + timedelta(1)
-type(intervalo_dia.total_seconds())
+intervalo_dia.seconds
+intervalo_dia.total_seconds()
 intervalo_dia.days
 
 
@@ -165,10 +168,11 @@ secretario.fichajes_salida
 
 secretario.calcula_tiempo_trabajado()
 director.ficha()
+
+
 #----------------------------------------------------------
 # Etapa3: Vamos a llevar una contabilidad del sueldo acumulado
 #----------------------------------------------------------
-
 class Persona:
     def __init__(self, nombre, apellido1, apellido2=""):
         # Características
@@ -222,13 +226,59 @@ secretario.ficha()
 secretario.calcula_tiempo_trabajado()
 
 secretario.calcula_sueldo()
-secretario.asigna_sueldo(25)
+secretario.asigna_sueldo()
 
 # Crear un método que asigne una dieta de transporte de un euro cada vez que una persona fiche
 # Modificar el método que calcula el sueldo para que añada la dieta de transporte.
 
 class Persona:
-    pass
+    def __init__(self, nombre, apellido1, apellido2=""):
+        # Características
+        self.nombre = nombre
+        self.apellido1 = apellido1
+        self.apellido2 = apellido2
+        # Estados
+        self.trabajando = False
+        self.ubicacion = "Rentería"
+        self.fichajes_entrada = []
+        self.fichajes_salida = []
+        self.sueldo_hora = 20
+        self.dietas = 0
+
+    # Los métodos son funciones con "self"
+    def presentarse(self):
+        print(
+            f'Hola, mi nombre es {self.nombre} {self.apellido1} {self.apellido2}')
+
+    def ficha(self):
+        print("Biip, Biiiiip")
+        self.dietas += 1
+        self.trabajando = not self.trabajando
+        if self.trabajando:
+            self.fichajes_entrada.append(datetime.now())
+        else:
+            self.fichajes_salida.append(datetime.now())
+
+    def viaja(self, nueva_ubicacion):
+        print(f"{self.ubicacion} -----> {nueva_ubicacion}")
+        self.ubicacion = nueva_ubicacion
+
+    def calcula_tiempo_trabajado(self):
+        if not self.fichajes_entrada or not self.fichajes_salida: return 0
+        tiempo_total = 0
+        for entrada, salida in zip(self.fichajes_entrada, self.fichajes_salida):
+            tiempo_total = tiempo_total + (salida - entrada).total_seconds()
+        return tiempo_total
+    
+    def asigna_sueldo(self):
+        self.sueldo_hora += float(input("Cuánto quieres variar el sueldo"))
+        print(f"Se ha asignado a {self.nombre} {self.apellido1} {self.sueldo_hora}€/h")
+
+    def calcula_sueldo(self):
+        horas_trabajadas = self.calcula_tiempo_trabajado() / 3600
+        sueldo_horas = horas_trabajadas * self.sueldo_hora
+        sueldo_total = sueldo_horas + self.dietas
+        return sueldo_total
 
 director = Persona('Juan', 'Pérez', 'López')
 secretario = Persona('Juanito', 'Pérez', 'García')

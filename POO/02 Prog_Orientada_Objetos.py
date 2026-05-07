@@ -112,7 +112,6 @@ Si cambiamos ese atributo de clase (que no de objeto) a True, las siguientes
 galletas se crearán con chocolate, es decir, habremos modificado las 
 instrucciones de creación de los objetos:
 """
-
 Galleta.chocolate = True
 
 oreo = Galleta()
@@ -241,7 +240,7 @@ artiach = Galleta("dulce", "blanca")
 artiach.sabor
 
 anonima = Galleta()
-
+anonima.sabor
 # ____________
 # Destructor 
 # ____________
@@ -336,7 +335,7 @@ class Cancion:
         self.titulo = titulo
 
     def __len__(self):
-        return self.duracion
+        return int(self.duracion)
 
     def __eq__(self, otro):
         return self.titulo == otro.titulo
@@ -404,36 +403,59 @@ __setattr__: Este método se llama cuando se intenta asignar un valor a un atrib
 #   pass
 
 # Crear la clase coche
+class Coche:
+    def __init__(self, marca, modelo, longitud, precio):
+        self.marca = marca
+        self.modelo = modelo
+        self.longitud = int(longitud*100)
+        self.precio = precio
 
+    def __del__(self):
+        print(f"Se ha borrado el {self.marca} {self.modelo}")
     
+    def __len__(self):
+        return self.longitud
+    
+    def __str__(self):
+        return f"{self.marca} {self.modelo} de {self.precio} €"
+    
+    def saludar(self):
+        print(f"Hola, soy un {self.marca} {self.modelo}")
+
+    def __lt__(self, otro):
+        if isinstance(otro, Coche):
+            return self.precio < otro.precio
+        else:
+            print(f"{otro} no es un coche")
 
 # Crear objetos de la clase coche
 # Atribuirles características que se creen al inicializar, basadas en datos
 # introducidos al crear los objetos
-# coche1 = Coche("Renault", "Megane", 3.5, 3000)
-# coche2 = Coche("BMW", "530", 3.7, 4500)
+coche1 = Coche("Renault", "Megane", 3.5, 3000)
+coche2 = Coche("BMW", "530", 3.7, 4500)
 
 # Atribuirles métodos que permitan imprimir en la pantalla:
 # Un mensaje al borrar el objeto
-# del(coche1)
+del(coche1)
 # un valor de longitud
-# len(coche2)
+len(coche2)
 # un valor al hacer print()
-# print(coche2)
+print(coche2)
 
-# coche2.saludar()
+coche1.saludar()
 
-# coche1 < coche2
+coche1 > coche2
 
 # coche1.maximo(coche2)
 
 # coche2
-# max(coche1, coche2)
+print(min(coche1, coche2))
 
-# lista_coches = [coche2, coche1]
-# print(lista_coches)
+lista_coches = [coche2, coche1]
+print(lista_coches)
 
-# lista_coches.sort()
-# print(lista_coches)
-
+lista_coches.sort(reverse=True)
+print(lista_coches)
+print(lista_coches[0])
+print(lista_coches[1])
 

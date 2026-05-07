@@ -1,5 +1,5 @@
 datos/dulcinea.txt
 datos/nombres.txt
 datos/ejemplo_modificacion.txt
-funciones/__pycache__/
+*/__pycache__/
 .env
